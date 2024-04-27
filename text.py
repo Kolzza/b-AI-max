@@ -1,0 +1,43 @@
+from openai import OpenAI
+import os
+from dotenv import load_dotenv
+# Set your OpenAI API key
+load_dotenv() # take environment variables from .env.
+
+client = OpenAI(
+    # This is the default and can be omitted
+    api_key=os.environ.get("OPENAI_KEY"),
+)
+
+def get_medicine_recommendation(symptoms):
+    # Define the prompt
+    prompt = f"Given the symptoms: {symptoms}, recommend over-the-counter medicine or suggest doctor's visit if the condition is too severe for at home treatment."
+
+    # Request a completion from the OpenAI API
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {
+                "role": "system",
+                "content": "Given the symptoms: {symptoms}, recommend over-the-counter medicine or suggest doctor's visit if the condition is too severe for at home treatment.",
+            },
+        ]
+    )
+
+    # Extract the recommended medicine from the response
+    recommendation = response.choices[0].message.content
+
+    return recommendation
+
+def main():
+    # Get input symptoms from the user
+    symptoms = input("Enter the symptoms: ")    
+
+    # Get medicine recommendation
+    recommendation = get_medicine_recommendation(symptoms)
+
+    print("Recommendation:")
+    print(recommendation)
+
+if __name__ == "__main__":
+    main()
