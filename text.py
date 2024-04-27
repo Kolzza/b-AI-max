@@ -34,6 +34,7 @@ def get_medicine_recommendation(symptoms):
     return recommendation
 
 def main():
+    session_symptoms = ""
     while True:
         # Get input symptoms from the user
         symptoms = input("Enter the symptoms (or type 'done'): ")
@@ -42,8 +43,11 @@ def main():
             print("Thank you for using B-AI-max. Take care!")
             break
 
+        # Accumulate symptoms from each session
+        session_symptoms += symptoms + " "
+
         # Get medicine recommendation
-        recommendation = get_medicine_recommendation(symptoms)
+        recommendation = get_medicine_recommendation(session_symptoms)
 
         print("Recommendation:")
         print(recommendation)
