@@ -19,8 +19,12 @@ def get_medicine_recommendation(symptoms):
         messages=[
             {
                 "role": "system",
-                "content": "Given the symptoms: {symptoms}, recommend over-the-counter medicine or suggest doctor's visit if the condition is too severe for at home treatment.",
+                "content": "You are a medical assistant, skilled in recommending over-the-counter medicine or at home remedies for common ailments.",
             },
+            {
+                "role": "user",
+                "content": prompt,
+            }
         ]
     )
 
