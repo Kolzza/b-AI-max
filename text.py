@@ -34,14 +34,19 @@ def get_medicine_recommendation(symptoms):
     return recommendation
 
 def main():
-    # Get input symptoms from the user
-    symptoms = input("Enter the symptoms: ")    
+    while True:
+        # Get input symptoms from the user
+        symptoms = input("Enter the symptoms (or type 'done'): ")
 
-    # Get medicine recommendation
-    recommendation = get_medicine_recommendation(symptoms)
+        if symptoms.lower() == "done":
+            print("Thank you for using B-AI-max. Take care!")
+            break
 
-    print("Recommendation:")
-    print(recommendation)
+        # Get medicine recommendation
+        recommendation = get_medicine_recommendation(symptoms)
+
+        print("Recommendation:")
+        print(recommendation)
 
 if __name__ == "__main__":
     main()
