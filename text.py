@@ -11,7 +11,7 @@ client = OpenAI(
 
 def get_medicine_recommendation(symptoms):
     # Define the prompt
-    prompt = f"Given the symptoms: {symptoms}, recommend over-the-counter medicine or suggest doctor's visit if the condition is too severe for at home treatment."
+    prompt = f"Given the symptoms: {symptoms}, recommend over-the-counter medicine or suggest doctor's visit if the condition is too severe for at home treatment. Try not to give diagnoses."
 
     # Request a completion from the OpenAI API
     response = client.chat.completions.create(
@@ -34,7 +34,7 @@ def get_medicine_recommendation(symptoms):
     return recommendation
 
 def get_nearby_hospitals(zipCode):
-    prompt = f"Given the zipcode: {zipCode}, You are a medical assistant, recommend nearby hosptials given the zip code in the prompt. Include the full address and phone numbers of their front desk."
+    prompt = f"Given the zipcode: {zipCode}, recommend nearby hosptials given the zip code in the prompt. Include the full address and phone numbers of their front desk."
 
     # Request a completion from the OpenAI API
     response = client.chat.completions.create(
@@ -42,7 +42,7 @@ def get_nearby_hospitals(zipCode):
         messages=[
             {
                 "role": "system",
-                "content": "recommend 3 nearby hosptials given the zip code in the prompt. Include the full address and phone numbers of their front desk.",
+                "content": "recommend 4 nearby hosptials given the zip code in the prompt.Include the full address and phone numbers of their front desk.",
             },
             {
                 "role": "user",
@@ -68,6 +68,8 @@ def main():
             if zipCode.lower() == "done":
                 print("Thank you for using B-AI-max. Take care!")
                 break
+            elif not zipCode.isdigit() or len(zipCode) != 5:
+                zipCode = input("Invalid zip code. Please enter a 5-digit numerical zip code: ")
             nearbyHospitals = get_nearby_hospitals(zipCode)
             print(nearbyHospitals)
             print("Thank you for using B-AI-max. Take care!")
