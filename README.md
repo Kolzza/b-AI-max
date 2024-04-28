@@ -7,7 +7,7 @@ B-AI-max is a medical assistant chatbot that will listen to a user's symptoms an
 - Symptom-based Recommendations
 - Hospital Finder
 
-## Installation
+## Installation for Terminal Use
 
 1. Install OpenAI
 
@@ -22,7 +22,7 @@ B-AI-max is a medical assistant chatbot that will listen to a user's symptoms an
    ```
 3. Set Up Environment Variables: Create a .env file and add your OpenAI API key.
 
-## Run
+## Run in Terminal
 
 In your terminal, run
    ```bash
