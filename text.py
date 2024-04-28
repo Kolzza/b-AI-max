@@ -33,6 +33,30 @@ def get_medicine_recommendation(symptoms):
 
     return recommendation
 
+def get_nearby_hospitals(zipCode):
+    prompt = f"Given the zipcode: {zipCode}, You are a medical assistant, recommend nearby hosptials given the zip code in the prompt. Include the full address and phone numbers of their front desk."
+
+    # Request a completion from the OpenAI API
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {
+                "role": "system",
+                "content": "recommend 3 nearby hosptials given the zip code in the prompt. Include the full address and phone numbers of their front desk.",
+            },
+            {
+                "role": "user",
+                "content": prompt,
+            }
+        ]
+    )
+
+    # Extract the recommended medicine from the response
+    nearbyHospitals = response.choices[0].message.content
+
+    return nearbyHospitals
+
+
 def main():
     session_symptoms = ""
     while True:
@@ -40,6 +64,12 @@ def main():
         symptoms = input("Enter the symptoms (or type 'done'): ")
 
         if symptoms.lower() == "done":
+            zipCode = input("Enter zipcode for nearby hospital information (or type 'done'): ")
+            if zipCode.lower() == "done":
+                print("Thank you for using B-AI-max. Take care!")
+                break
+            nearbyHospitals = get_nearby_hospitals(zipCode)
+            print(nearbyHospitals)
             print("Thank you for using B-AI-max. Take care!")
             break
 
@@ -51,6 +81,8 @@ def main():
 
         print("Recommendation:")
         print(recommendation)
+        print("\nDisclaimer: Not all information provided by the chatbot may be accurate. Always consult with a qualified healthcare professional for medical advice. ")
+
 
 if __name__ == "__main__":
     main()
