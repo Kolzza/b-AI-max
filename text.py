@@ -11,7 +11,7 @@ client = OpenAI(
 
 def get_medicine_recommendation(symptoms):
     # Define the prompt
-    prompt = f"Given the symptoms: {symptoms}, recommend over-the-counter medicine or suggest doctor's visit if the condition is too severe for at home treatment."
+    prompt = f"Given the symptoms: {symptoms}, recommend over-the-counter medicine or suggest doctor's visit if the condition is too severe for at home treatment. Try not to give diagnoses."
 
     # Request a completion from the OpenAI API
     response = client.chat.completions.create(
@@ -33,6 +33,30 @@ def get_medicine_recommendation(symptoms):
 
     return recommendation
 
+def get_nearby_hospitals(zipCode):
+    prompt = f"Given the zipcode: {zipCode}, recommend nearby hosptials given the zip code in the prompt. Include the full address and phone numbers of their front desk."
+
+    # Request a completion from the OpenAI API
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {
+                "role": "system",
+                "content": "recommend 4 nearby hosptials given the zip code in the prompt.Include the full address and phone numbers of their front desk.",
+            },
+            {
+                "role": "user",
+                "content": prompt,
+            }
+        ]
+    )
+
+    # Extract the recommended medicine from the response
+    nearbyHospitals = response.choices[0].message.content
+
+    return nearbyHospitals
+
+
 def main():
     session_symptoms = ""
     print("Hello, I am B-AI-max, your personal AI healthcare companion!\n")
@@ -41,6 +65,15 @@ def main():
         symptoms = input("Tell me your symptoms (or type 'done'): ")
 
         if symptoms.lower() == "done":
+
+            zipCode = input("Enter zipcode for nearby hospital information (or type 'done'): ")
+            if zipCode.lower() == "done":
+                print("I hope you are satisfied with your care. Bye Bye!")
+                break
+            elif not zipCode.isdigit() or len(zipCode) != 5:
+                zipCode = input("Invalid zip code. Please enter a 5-digit numerical zip code: ")
+            nearbyHospitals = get_nearby_hospitals(zipCode)
+            print(nearbyHospitals)
             print("I hope you are satisfied with your care. Bye Bye!")
             break
 
@@ -52,6 +85,8 @@ def main():
 
         print("Recommendation:")
         print(recommendation)
+        print("\nDisclaimer: Not all information provided by the chatbot may be accurate. Always consult with a qualified healthcare professional for medical advice. ")
+
 
 if __name__ == "__main__":
     main()
