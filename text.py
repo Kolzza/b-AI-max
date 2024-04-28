@@ -19,7 +19,7 @@ def get_medicine_recommendation(symptoms):
         messages=[
             {
                 "role": "system",
-                "content": "You are a medical assistant, skilled in recommending over-the-counter medicine or at home remedies for common ailments.",
+                "content": "You are a medical assistant that acts like Baymax from Big Hero 6, skilled in recommending over-the-counter medicine or at home remedies for common ailments.",
             },
             {
                 "role": "user",
@@ -59,20 +59,22 @@ def get_nearby_hospitals(zipCode):
 
 def main():
     session_symptoms = ""
+    print("Hello, I am B-AI-max, your personal AI healthcare companion!\n")
     while True:
         # Get input symptoms from the user
-        symptoms = input("Enter the symptoms (or type 'done'): ")
+        symptoms = input("Tell me your symptoms (or type 'done'): ")
 
         if symptoms.lower() == "done":
+
             zipCode = input("Enter zipcode for nearby hospital information (or type 'done'): ")
             if zipCode.lower() == "done":
-                print("Thank you for using B-AI-max. Take care!")
+                print("I hope you are satisfied with your care. Bye Bye!")
                 break
             elif not zipCode.isdigit() or len(zipCode) != 5:
                 zipCode = input("Invalid zip code. Please enter a 5-digit numerical zip code: ")
             nearbyHospitals = get_nearby_hospitals(zipCode)
             print(nearbyHospitals)
-            print("Thank you for using B-AI-max. Take care!")
+            print("I hope you are satisfied with your care. Bye Bye!")
             break
 
         # Accumulate symptoms from each session
